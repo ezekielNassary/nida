@@ -1,7 +1,7 @@
 name: nida
 description: "Fetch Tanzania Citizen details based on National ID "
 version: 0.0.1
-homepage:
+homepage: https://github.com/ezekielNassary/nida_flutter.git
 
 environment:
   sdk: ">=3.3.0-151.0.dev <4.0.0"
