@@ -1,17 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:nida/utils/const.dart';
 
 class Nida {
   Nida();
 
-  Future<dynamic> userData(String Nin) async {
+  Future<dynamic> userData(String nin) async {
     Map<String, dynamic> responseJson;
     Map<String, dynamic> param = {};
-    Uri url = Uri.parse('$baseUrl/$Nin');
+    Uri url = Uri.parse('$baseUrl/$nin');
     Map<String, String> headers = {
       'Content-Type': 'application/json',
     };
@@ -19,7 +18,7 @@ class Nida {
       final response = await http
           .post(
             url,
-            headers: headers ?? {},
+            headers: headers,
             body: param.isNotEmpty ? jsonEncode(param) : null,
           )
           .timeout(const Duration(seconds: 30));
@@ -38,23 +37,6 @@ class Nida {
       throw ApiException('Something went wrong with ${e.toString()}');
     }
     return responseJson;
-  }
-
-  dynamic _response(response) {
-    switch (response.statusCode) {
-      case 200:
-        // var responseJson = json.decode(response.body.toString());
-        return response;
-      case 400:
-        throw BadRequestException(response.body.toString());
-      case 401:
-      case 403:
-        throw UnauthorisedException(response.body.toString());
-      case 500:
-      default:
-        throw FetchDataException(
-            'Error occurred while Communication with Server with StatusCode: ${response.statusCode}');
-    }
   }
 }
 
